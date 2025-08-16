@@ -9,12 +9,21 @@ def image_upload_path(instance, filename):
 
 class Post(models.Model):
     writer = models.CharField(max_length=50)
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=120, db_index=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to=image_upload_path, blank=True, null=True)
 
-    category = models.CharField(max_length=50, blank=True)  #아래 세개는 문자열로 우선 등록
-    dong = models.CharField(max_length=50, blank=True)
+    category = models.CharField(max_length=50, blank=True, db_index=True)  
+    dong = models.CharField(max_length=50, blank=True, db_index=True)
     location_detail = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return f'[{self.id}] {self.title}'
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=["-created_at"]),
+            models.Index(fields=["category", "dong"])
+        ]
