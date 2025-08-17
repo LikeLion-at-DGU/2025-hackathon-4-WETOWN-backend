@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from django.db.models import Q
 from django.utils import timezone
@@ -7,18 +7,21 @@ from datetime import datetime, timedelta
 # Create your views here.
 from django.shortcuts import render
 from rest_framework import viewsets, mixins 
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, Comment
+from .serializers import PostSerializer,  PostListSerializer, CommentSerializer
 
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
 
-
 # Create your views here.
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by("-created_at") #최신순 정렬
-    serializer_class = PostSerializer
+    
+    def get_serializer_class(self):
+        if self.action == "list":
+            return PostListSerializer
+        return PostSerializer
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -76,3 +79,25 @@ class PostViewSet(viewsets.ModelViewSet):
             qs = qs.filter(created_at__gte=start_dt, created_at__lt=end_dt)
 
         return qs
+    
+class PostCommentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post = self.kwargs.get("post_id")
+        queryset = Comment.objects.filter(post_id=post)
+        return queryset
+    
+    def create(self, request, post_id=None):
+        post = get_object_or_404(Post, id=post_id)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(post=post)
+        return Response(serializer.data)
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all().order_by("-created_at")
+    serializer_class = CommentSerializer
+
+
+
