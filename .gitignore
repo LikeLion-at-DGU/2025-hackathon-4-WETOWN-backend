@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/react,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=react,windows,macos
+.env
 
 ### macOS ###
 # General
