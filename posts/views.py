@@ -9,7 +9,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, mixins 
 from .models import Post, Comment, Like
 from .serializers import PostSerializer,  PostListSerializer, CommentSerializer
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework import status
@@ -126,6 +126,15 @@ class PostViewSet(viewsets.ModelViewSet):
             post.save(update_fields=["likes_count"])
             return Response({"post_id": post.id, "likes_count": post.likes_count, "is_liked": True}, status=201)
 
+    @action(detail=False, methods=["GET"], url_path="map")
+    def map_posts(self, request):
+        posts_with_location = self.get_queryset().filter(
+            latitude__insull = False,
+            longitude__insull = False
+        )
+        serializer = self.get_serializer(posts_with_location, many=True)
+        return Response(serializer.data)
+    
 class PostCommentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     serializer_class = CommentSerializer
 
