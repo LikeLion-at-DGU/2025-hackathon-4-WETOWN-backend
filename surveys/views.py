@@ -28,7 +28,7 @@ class SurveyViewSet(viewsets.ModelViewSet):
     qs = super().get_queryset()
     p = self.request.query_params
     status_param = p.get("status")
-    now = timezon.now()
+    now = timezone.now()
     if status_param == "active":
       qs = qs.filter(end_at__gt=now).filter(Q(start_at__isnull=True) | Q(start_at__lte=now))
     elif status_param == "expired":
