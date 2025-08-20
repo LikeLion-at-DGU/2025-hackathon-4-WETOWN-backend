@@ -99,7 +99,7 @@ class SurveyViewSet(viewsets.ModelViewSet):
   def results(self, request, pk=None):
     survey = self.get_object()
     options = survey.options.order_by("order_num", "id")
-    contents = []
+    counts = []
     total = 0
     for opt in options:
       c = opt.votes.count()
