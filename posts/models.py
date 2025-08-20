@@ -18,6 +18,9 @@ class Post(models.Model):
     dong = models.CharField(max_length=50, blank=True, db_index=True)
     location_detail = models.CharField(max_length=200, blank=True)
 
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
     likes_count = models.PositiveIntegerField(default=0, db_index=True)
     
     def __str__(self):
