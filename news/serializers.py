@@ -36,3 +36,10 @@ class NewsListSerializer(serializers.ModelSerializer):
       "id",
       "created_at",
     ]
+
+class NewsImageSerializer(serializers.ModelSerializer): # 홈 화면 뉴스 리스트를 위한 serializer
+    image = serializers.ImageField(use_url=True, required=False, allow_null=True)
+    class Meta:
+        model = News
+        fields = ["id", "image"]
+        read_only_fields = ["id"] 
