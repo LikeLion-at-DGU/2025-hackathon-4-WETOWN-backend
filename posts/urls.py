@@ -19,5 +19,5 @@ post_comment_router.register("comments", PostCommentViewSet, basename="post-comm
 urlpatterns = [
     path("", include(default_router.urls)),
     path("", include(comment_router.urls)),
-    path("posts/<int:post_id>/", include(post_comment_router.urls)),
+    path("<int:post_id>/", include(post_comment_router.urls)),
 ]
