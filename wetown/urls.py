@@ -23,8 +23,8 @@ from django.views.generic import TemplateView #추가
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', include('posts.urls')), (기존 코드)
     path('posts/', include('posts.urls')),
     path('surveys/', include('surveys.urls')),
     path('news/', include('news.urls')),
-    # path('', include('posts.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
