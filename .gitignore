@@ -83,7 +83,6 @@ __pycache__/
 *.py[cod]
 *.so
 *.egg-info/
-db.sqlite3
 .env
 /media/
 /staticfiles/
