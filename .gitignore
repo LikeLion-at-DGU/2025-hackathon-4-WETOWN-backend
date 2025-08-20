@@ -78,3 +78,12 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/react,windows,macos
+
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+db.sqlite3
+.env
+/media/
+/staticfiles/
