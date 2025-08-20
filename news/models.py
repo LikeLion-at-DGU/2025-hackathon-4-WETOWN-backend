@@ -14,4 +14,4 @@ class News(models.Model): # 뉴스 모델 임시 설계 (차후 ai 도입 시 �
     indexes = [models.Index(fields=["-created_at"])]
 
   def __str__(self):
-    return f"[News {self.id}] (self.title)"
+    return f"[News {self.id}] {self.title}"
