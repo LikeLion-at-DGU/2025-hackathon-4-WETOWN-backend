@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import News
-from .serializers import NewsSerializer, NewsListSerializer
+from .serializers import NewsSerializer, NewsListSerializer, NewsImageSerializer
 
 class NewsViewSet(viewsets.ModelViewSet):
   queryset = News.objects.all().order_by("-created_at")
@@ -32,3 +32,9 @@ class NewsViewSet(viewsets.ModelViewSet):
     ser = self.get_serializer(obj)
     return Response(ser.data)
 
+# 최신 3개의 이미지용 데이터만 반환
+  @action(methods=["GET"], detail=False, url_path="latest-images")
+  def latest_images(self, request):
+      qs = self.get_queryset()[:3]
+      ser = self.get_serializer(qs, many=True)
+      return Response(ser.data)
