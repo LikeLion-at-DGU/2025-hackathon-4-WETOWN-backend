@@ -14,6 +14,9 @@ class PostSerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
 
+    latitude = serializers.FloatField(required=False)
+    longitude = serializers.FloatField(required=False)
+
     def get_comments(self, instance):
         serializer = CommentSerializer(instance.comments, many=True)
         return serializer.data
@@ -43,6 +46,8 @@ class PostListSerializer(serializers.ModelSerializer):
     comments_cnt = serializers.SerializerMethodField()
     likes_count = serializers.IntegerField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
+    latitude = serializers.FloatField(read_only=True)
+    longitude = serializers.FloatField(read_only=True)
 
     def get_comments_cnt(self, instance):
         return instance.comments.count()
@@ -66,7 +71,9 @@ class PostListSerializer(serializers.ModelSerializer):
             "image",
             "comments_cnt",
             "likes_count",
-            "is_liked"
+            "is_liked",
+            "latitude",
+            "longitude",
         ]
         read_only_fields = ["id","created_at","updated_at","comments_cnt"]
 
