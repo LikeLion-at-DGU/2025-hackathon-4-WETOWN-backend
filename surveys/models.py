@@ -62,3 +62,5 @@ class SurveyVote(models.Model):
 
     def __str__(self):
         return f"SurveyVote(survey={self.survey_id}, option={self.option_id}, session={self.session_key})"
+    
+    

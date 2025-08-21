@@ -80,7 +80,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/react,windows,macos
 
 __pycache__/
-db.sqlite3
 *.pyc
 *.py[cod]
 *.so
