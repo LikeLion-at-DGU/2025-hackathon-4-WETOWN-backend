@@ -21,6 +21,7 @@ class Survey(models.Model):
     description = models.TextField(blank=True)
     start_at = models.DateTimeField(blank=True, null=True)
     end_at = models.DateTimeField()
+    agency = models.ForeignKey(Agency, on_delete=models.PROTECT, related_name='surveys', null=True, blank=True)  # 1단계: null 허용
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
