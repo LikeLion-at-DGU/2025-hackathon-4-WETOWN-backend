@@ -1,6 +1,21 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
+
+# 인증 기관 추가 모델
+class Agency(models.Model):
+    name = models.CharField(max_length=100, unique = True)
+    def __str__(self): return self.name
+
+class AuthCode(models.Model):
+    code = models.CharField(max_length=32, unique=True)
+    agency = models.ForeignKey(Agency, on_delete=models.PROTECT, related_name='codes')
+    is_active = models.BooleanField(default=True)
+    def __str__(self): return f"{self.code} -> {self.agency.name}"
+
+
+# 기존 코드
 class Survey(models.Model):
     title = models.CharField(max_length=150, db_index=True)
     description = models.TextField(blank=True)
