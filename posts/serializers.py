@@ -46,6 +46,11 @@ class PostListSerializer(serializers.ModelSerializer):
     comments_cnt = serializers.SerializerMethodField()
     likes_count = serializers.IntegerField(read_only=True)
     is_liked = serializers.SerializerMethodField(read_only=True)
+    
+    category = serializers.CharField(read_only=True)
+    dong = serializers.CharField(read_only=True)
+    location_detail = serializers.CharField(read_only=True)
+
     latitude = serializers.FloatField(read_only=True)
     longitude = serializers.FloatField(read_only=True)
 
@@ -74,6 +79,9 @@ class PostListSerializer(serializers.ModelSerializer):
             "is_liked",
             "latitude",
             "longitude",
+            "category", 
+            "dong", 
+            "location_detail"
         ]
         read_only_fields = ["id","created_at","updated_at","comments_cnt"]
 
