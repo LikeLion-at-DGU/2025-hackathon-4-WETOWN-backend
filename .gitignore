@@ -81,6 +81,7 @@ $RECYCLE.BIN/
 
 __pycache__/
 db.sqlite3
+*.pyc
 *.py[cod]
 *.so
 *.egg-info/
