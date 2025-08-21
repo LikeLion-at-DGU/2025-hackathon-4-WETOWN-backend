@@ -3,12 +3,29 @@ from django.shortcuts import render
 # Create your views here.
 from django.utils import timezone
 from django.db.models import Q 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Survey, SurveyOption, SurveyVote
+from .models import Survey, SurveyOption, SurveyVote, AuthCode
 from .serializers import SurveySerializer, SurveyListSerializer, SurveyVoteSerializer, SurveyOptionSerializer
+
+
+class VerifySurveyCodeView(APIView):
+  permission_classes = [permissions.AllowAny]
+
+  def post(self, request):
+    code = (request.data.get('code') or "").strip()
+    try:
+      obj = AuthCode.objects.select_related('agency').get(code=code, is_active=True)
+      return Response({
+        "valid": True,
+        "agency_id": obj.agency_id,
+        "agency_name": obj.agency.name
+      })
+    except AuthCode.DoesNotExist:
+      return Response({"valid": False, "reason": "invalid"}, status=400)
 
 
 class SurveyViewSet(viewsets.ModelViewSet):
@@ -32,7 +49,7 @@ class SurveyViewSet(viewsets.ModelViewSet):
     if status_param == "active":
       qs = qs.filter(end_at__gt=now).filter(Q(start_at__isnull=True) | Q(start_at__lte=now))
     elif status_param == "expired":
-      qs = qs.filter(end_ata__lte=now)
+      qs = qs.filter(end_at__lte=now)
     return qs
   
   def _ensure_session(self, request):
