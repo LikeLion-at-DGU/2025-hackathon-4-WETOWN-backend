@@ -71,6 +71,7 @@ class PostListSerializer(serializers.ModelSerializer):
             "id",
             "writer",
             "title",
+            "content",
             "created_at",
             "updated_at",
             "image",

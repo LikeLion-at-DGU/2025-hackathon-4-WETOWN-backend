@@ -13,9 +13,9 @@ def simple_chat(request):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[
-                {"role": "system", "content": "너는 지역 생활/민원 관련 질문을 돕는 한국어 챗봇이야. 친절하고 정확하게 대답해."},
+                {"role": "system", "content": "너는 지역 생활/민원 관련 질문을 돕는 한국어 챗봇이야. 친절하고 정확하게 대답해.말투는 사무적이지만 친근하게 부탁해"},
                 {"role": "user", "content": user_msg},
             ]
         )
